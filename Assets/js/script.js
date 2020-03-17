@@ -1,6 +1,3 @@
-console.log("hello");
-
-
 var info8 = document.getElementById("t8:00");
 var info9 = document.getElementById("t9:00");
 var info10 = document.getElementById("t10:00");
@@ -23,25 +20,34 @@ info15.innerHTML = localStorage.getItem("t3:00");
 info16.innerHTML = localStorage.getItem("t4:00");
 info17.innerHTML = localStorage.getItem("t5:00");
 
+currentHour = moment().format('HH');
 
+$("textarea").each(function() {
+    console.log($(this));
+    if (parseInt($(this).parent().attr("id")) < parseInt(currentHour) ) {        
+        $(this).removeClass("present");
+        $(this).removeClass("future");
+        $(this).addClass( "past" )
+    } else if (parseInt($(this).parent().attr("id")) > parseInt(currentHour) ) {
+        $(this).removeClass("present");
+        $(this).removeClass("past");
+        console.log($(this).parent().attr("id"));
+        $(this).addClass( "future" )
+    } else {
+        $(this).removeClass("past");
+        $(this).removeClass("future");
+        $(this).addClass( "present" )
+    }
+});
 
 const today = document.getElementById("currentDay");
 today.innerHTML = moment().format('dddd, MMMM Do YYYY, h:mm a');
 
-$(".saveBtn").on("click", saveInfo);  //this covers all #saveBtn tags
+$(".saveBtn").on("click", saveInfo);  
+console.log($(".saveBtn").on("click", saveInfo));
 
 function saveInfo() {
     localStorage.setItem(this.id, $(this).siblings(".form-control").val())
     console.log(this.id);
     console.log($(this));
 }
-
-//if time = after, then set class to pass
-//if time = now, then set class to present
-//if time = future, then set class to future
-
-// each time-block loop for the time
-// $(".time-block").each()
-//need a class input-group-prepend check to see if past, current, futuee
-//do military time and change to hours ONLY
-//then compare the hours (military time)
